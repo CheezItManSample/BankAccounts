@@ -1,3 +1,5 @@
+require 'csv'
+
 module Bank
 
   class Account
@@ -14,25 +16,21 @@ module Bank
     def self.all
       accounts = []
 
+      # READ IN Accounts from a file into accounts
       CSV.read("support/accounts.csv").each do |line|
         id = line[0].to_i
         balance = line[1].to_i
         open_date = line[2]
-        accounts << Account.new(id, balance, open_date)
+
+        account = Bank::Account.new(id, balance, open_date)
+
+        accounts << account
       end
 
       accounts
+
     end
 
-    def self.find(account_number)
-
-      CSV.read("support/accounts.csv").each do |line|
-        if line[0] == account_number.to_s
-            return Bank::Account.new(line[0].to_i, line[1].to_i, line[2])
-        end
-      end
-      raise ArgumentError.new "Account does not exist"
-    end
 
     def withdraw(amount)
       raise ArgumentError.new if amount < 0
