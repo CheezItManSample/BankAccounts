@@ -1,30 +1,32 @@
 
 # savings_account.rb
 
+require_relative 'account'
+
 module Bank
   class SavingsAccount < Bank::Account
-    def initialize(id, balance, open_date = nil)
-      raise ArgumentError.new "The balance must be at least $10" if balance < 10
 
+    def initialize(id, balance, open_date = nil)
+      raise ArgumentError.new "Requires a balance of at least $10" if balance < 10
       super(id, balance, open_date)
     end
 
     def withdraw(amount)
-
-      if ( (@balance - 10) < (amount + 2))
-        puts "That would bring the balance below 10"
+      if (balance - amount - 2 < 10)
+        puts "That would bring the account below $10"
       else
-        @balance -= 2
-        super(amount)
+        super(amount + 2)
       end
+      return balance
     end
 
-    def add_interest(rate)
-      raise ArgumentError.new "Must be a positive interest rate" if rate <= 0
-
-      interest = @balance * rate/100.0
-      @balance += interest
+    def add_interest(interest_rate)
+      raise ArgumentError.new "Interest Rate must be positive" if interest_rate <= 0
+      
+      interest = balance * interest_rate / 100.0
+      deposit(interest)
       return interest
     end
-  end
-end
+
+  end # end Class
+end # end Module
