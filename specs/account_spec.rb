@@ -163,7 +163,7 @@ describe "Wave 2" do
 
       #   - The number of accounts is correct
       it "The number of accounts is correct" do
-        @accounts.length.must_equal 12
+        @accounts.length.must_equal CSV.read("support/accounts.csv").length
       end
 
       #   - The ID and balance of the first and last
